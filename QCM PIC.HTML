@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM - Protection de la clientèle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4caf50;
+            --danger-color: #f44336;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f5f7fa;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .question-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .question-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-number {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: 600;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            display: inline;
+        }
+
+        .options {
+            margin: 15px 0;
+        }
+
+        .option {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--light-color);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid #ddd;
+        }
+
+        .option:hover {
+            background-color: #e9ecef;
+            border-color: var(--primary-color);
+        }
+
+        .option.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: var(--success-color);
+        }
+
+        .option.incorrect {
+            background-color: rgba(244, 67, 54, 0.1);
+            border-color: var(--danger-color);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .answer {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: rgba(67, 97, 238, 0.1);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary-color);
+            display: none;
+        }
+
+        .answer.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: var(--border-radius);
+            margin: 30px 0;
+            height: 10px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: var(--border-radius);
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 0.9rem;
+            color: var(--dark-color);
+        }
+
+        .score-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: none;
+        }
+
+        .score-container.show {
+            display: block;
+        }
+
+        .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+
+        .restart-btn {
+            background-color: var(--accent-color);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .question-container {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>QCM - Protection de la clientèle</h1>
+            <p class="subtitle">Testez vos connaissances sur la protection des clients dans les secteurs bancaire et assurantiel</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="progress-text" id="progressText">0/70 questions complétées</div>
+        </div>
+
+        <div class="question-container" id="questionContainer">
+            <!-- Questions will be inserted here by JavaScript -->
+        </div>
+
+        <div class="score-container" id="scoreContainer">
+            <h2>Résultats du QCM</h2>
+            <div class="score" id="scoreDisplay">0/70</div>
+            <p id="scoreMessage"></p>
+            <button class="btn restart-btn" id="restartBtn">Recommencer le QCM</button>
+        </div>
+    </div>
+
+    <script>
+        // Questions data
+        const questions = [
+            {
+                question: "1. Quel est l'objectif principal de l'Executive Master Expert Conformité ?",
+                options: [
+                    "A. Apprendre à gérer des portefeuilles d'actions",
+                    "B. Appréhender les règles relatives à la protection de la clientèle dans le secteur de l'assurance, la banque et la gestion d'actifs",
+                    "C. Devenir un expert en marketing digital",
+                    "D. Maîtriser les techniques de vente en ligne"
+                ],
+                answer: "B. Appréhender les règles relatives à la protection de la clientèle dans le secteur de l'assurance, la banque et la gestion d'actifs"
+            },
+            {
+                question: "3. Quel est l'impact de la crise de 2008 sur la réglementation relative à la protection de la clientèle ?",
+                options: [
+                    "A. Aucun impact",
+                    "B. Une diminution des textes réglementaires",
+                    "C. Une multiplication des textes renforçant les droits des consommateurs et les exigences faites aux professionnels",
+                    "D. Une simplification des règles existantes"
+                ],
+                answer: "C. Une multiplication des textes renforçant les droits des consommateurs et les exigences faites aux professionnels"
+            },
+            {
+                question: "4. Qu'est-ce que la notion de 'client' au sens large ?",
+                options: [
+                    "A. Un consommateur",
+                    "B. Un client déjà en relation avec l'établissement (prospects et public concernés)",
+                    "C. Un investisseur professionnel",
+                    "D. Un fournisseur de services"
+                ],
+                answer: "B. Un client déjà en relation avec l'établissement (prospects et public concernés)"
+            },
+            {
+                question: "5. Quels sont les risques liés à la protection de la clientèle ?",
+                options: [
+                    "A. Risques d'image et de réputation",
+                    "B. Risques de sanctions disciplinaires et pécuniaires",
+                    "C. Risques judiciaires : civils et pénaux",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "6. Quels sont les clients spécifiques nécessitant une attention particulière ?",
+                options: [
+                    "A. Non professionnel / professionnel",
+                    "B. Majeur capable / personne protégée",
+                    "C. Personnes dans des situations de fragilité",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "7. Quels sont les produits financiers spécifiques nécessitant une attention particulière ?",
+                options: [
+                    "A. Dispositions sectorielles françaises ou ayant des liens avec certains pays",
+                    "B. Dispositions transsectorielles aux différents secteurs pour protéger les clients",
+                    "C. Dispositions sectorielles européennes",
+                    "D. A et B"
+                ],
+                answer: "D. A et B"
+            },
+            {
+                question: "8. Quel est le dernier traité ratifié par l'Union européenne ?",
+                options: [
+                    "A. Le traité de Maastricht",
+                    "B. Le traité de Lisbonne",
+                    "C. Le traité de Rome",
+                    "D. Le traité de Nice"
+                ],
+                answer: "B. Le traité de Lisbonne"
+            },
+            {
+                question: "9. Qu'est-ce que la catégorisation client selon MiFID ?",
+                options: [
+                    "A. Une classification des clients en fonction de leur âge",
+                    "B. Une classification des clients en fonction de leur expérience, connaissances et compétence nécessaires pour prendre leurs propres décisions d'investissement",
+                    "C. Une classification des clients en fonction de leur lieu de résidence",
+                    "D. Une classification des clients en fonction de leur revenu annuel"
+                ],
+                answer: "B. Une classification des clients en fonction de leur expérience, connaissances et compétence nécessaires pour prendre leurs propres décisions d'investissement"
+            },
+            {
+                question: "10. Quels sont les types de clients selon MiFID ?",
+                options: [
+                    "A. Clients non-professionnels par nature (de détail)",
+                    "B. Clients professionnels",
+                    "C. Contreparties éligibles",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "11. Un client peut-il changer de catégorie selon MiFID ?",
+                options: [
+                    "A. Non, jamais",
+                    "B. Oui, sous certaines conditions",
+                    "C. Seulement pour les clients professionnels",
+                    "D. Seulement pour les clients non-professionnels"
+                ],
+                answer: "B. Oui, sous certaines conditions"
+            },
+            {
+                question: "12. Quels sont les critères pour qu'un client puisse changer de catégorie selon MiFID ?",
+                options: [
+                    "A. A la demande du client",
+                    "B. Après vérification par l'établissement du respect de certains critères",
+                    "C. La décision revient toujours à l'établissement financier",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "13. Quelles sont les obligations pour les prestataires selon l'article D. 533-4 du code monétaire et financier ?",
+                options: [
+                    "A. Mettre en place des politiques et des procédures appropriées et écrites permettant de classer leurs clients",
+                    "B. Informer les clients de leur catégorisation et de leur droit à demander une catégorisation différente",
+                    "C. Prendre les mesures appropriées s'ils constatent que les clients ne remplissent plus les conditions propres à la catégorie dans laquelle ils ont été classés",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "14. Quelles sont les obligations pour les clients professionnels ou les contreparties éligibles selon l'article D. 533-4 du code monétaire et financier ?",
+                options: [
+                    "A. Informer les prestataires de tout changement susceptible de modifier leur catégorisation",
+                    "B. Demander à être placés dans une catégorie offrant une protection plus importante s'ils estiment ne pas être en mesure d'évaluer ou de gérer correctement les risques auxquels ils sont amenés à s'exposer",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "15. Quels sont les critères pour l'évaluation de l'adéquation et du caractère approprié du service à fournir selon MiFID II ?",
+                options: [
+                    "A. Objectifs d'investissement",
+                    "B. Tolérance aux risques",
+                    "C. Expérience et connaissance",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "16. Quelles informations doivent être correctes, claires et non trompeuses selon MiFID II ?",
+                options: [
+                    "A. Les performances passées",
+                    "B. Les simulations de performances",
+                    "C. Toutes les informations, y compris publicitaires, communiquées aux clients",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. Toutes les informations, y compris publicitaires, communiquées aux clients"
+            },
+            {
+                question: "17. Qu'est-ce que le droit au compte ?",
+                options: [
+                    "A. Le droit pour toute personne de disposer d'un compte bancaire",
+                    "B. Le droit pour toute personne de disposer d'un compte bancaire dans l'établissement de son choix",
+                    "C. Le droit pour toute personne de disposer d'un compte bancaire dans l'établissement de son choix et, en cas de refus, droit à l'ouverture d'un compte de dépôt dans l'établissement de crédit désigné par la Banque de France",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. Le droit pour toute personne de disposer d'un compte bancaire dans l'établissement de son choix et, en cas de refus, droit à l'ouverture d'un compte de dépôt dans l'établissement de crédit désigné par la Banque de France"
+            },
+            {
+                question: "18. Quels sont les services bancaires de base offerts gratuitement dans le cadre du droit au compte ?",
+                options: [
+                    "A. La tenue de compte, la fermeture et, le cas échéant, l'ouverture du compte de dépôt",
+                    "B. Une carte de paiement à autorisation systématique",
+                    "C. Le dépôt et le retrait d'espèces dans l'agence bancaire qui détient le compte",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "19. Quels sont les motifs justifiant la clôture d'un compte SBB à l'initiative de l'établissement ?",
+                options: [
+                    "A. Le client a délibérément utilisé son compte de dépôt pour des opérations que l'organisme a des raisons de soupçonner comme poursuivant des fins illégales",
+                    "B. Le client a fourni des informations inexactes",
+                    "C. Le client ne répond plus aux conditions de domicile ou de résidence",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "20. Qu'est-ce que la mobilité bancaire ?",
+                options: [
+                    "A. La possibilité pour un client de changer de banque",
+                    "B. La possibilité pour un client de changer de compte bancaire au sein de la même banque",
+                    "C. La possibilité pour un client de changer de compte bancaire d'une banque à une autre",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. La possibilité pour un client de changer de compte bancaire d'une banque à une autre"
+            },
+            {
+                question: "21. Quels sont les objectifs de la directive sur les comptes de paiement 2014/92/UE ?",
+                options: [
+                    "A. Accès aux comptes de paiement de base",
+                    "B. Transparence et comparabilité des frais liés aux comptes de paiement",
+                    "C. Changement de compte bancaire",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "22. Quels sont les établissements concernés par la mobilité bancaire au niveau national ?",
+                options: [
+                    "A. Tous les établissements de métropole et des départements d'Outre-mer",
+                    "B. Tous les prestataires de services de paiements",
+                    "C. Personnes physiques n'agissant pas pour des besoins professionnels",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "23. Quels sont les comptes concernés par la mobilité bancaire au niveau national ?",
+                options: [
+                    "A. Ouverture d'un nouveau compte de dépôt ou d'un compte de paiement",
+                    "B. Produits d'épargne et contrats d'assurance",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Ouverture d'un nouveau compte de dépôt ou d'un compte de paiement"
+            },
+            {
+                question: "24. Quelles sont les obligations respectives de la banque de départ et de la banque d'arrivée en cas de mobilité bancaire ?",
+                options: [
+                    "A. La banque de départ doit fournir la liste des opérations récurrentes et des formules de chèques non utilisées",
+                    "B. La banque d'arrivée doit informer son client du rejet",
+                    "C. La banque de départ peut s'opposer au transfert de la liste des opérations et chèques non débités sauf cas de rejet",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "25. Quels sont les principes généraux de la tarification des services bancaires ?",
+                options: [
+                    "A. La tarification des services bancaires est libre",
+                    "B. Toute tarification doit être causée",
+                    "C. La tarification doit être proportionnée au service rendu",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "26. Qu'est-ce qu'une commission d'intervention ?",
+                options: [
+                    "A. Une somme perçue par la banque en raison d'une opération entraînant une irrégularité de fonctionnement du compte nécessitant un traitement particulier",
+                    "B. Une somme perçue par la banque en raison d'une opération régulière",
+                    "C. Une somme perçue par la banque en raison d'un dépôt d'espèces",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Une somme perçue par la banque en raison d'une opération entraînant une irrégularité de fonctionnement du compte nécessitant un traitement particulier"
+            },
+            {
+                question: "27. Quels sont les points d'attention concernant les commissions d'intervention ?",
+                options: [
+                    "A. Les commissions d'intervention doivent être clairement affichées dans la plaquette tarifaire",
+                    "B. Obligation d'informer le client n'agissant pas pour des besoins professionnels au moins 14 jours avant de débiter les commissions d'intervention sur son compte",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "28. Quels sont les plafonds des commissions d'intervention pour certains types de clients ?",
+                options: [
+                    "A. 8€ par opération - max 80€/mois pour les PP n'agissant pas pour des besoins professionnels",
+                    "B. 4€ par opération - max 20€/mois pour les bénéficiaires du droit au compte et personnes fragiles",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "29. Quelles sont les obligations générales d'information du public et des clients sur le prix de tous les produits et services que les banques offrent ?",
+                options: [
+                    "A. Sous forme électronique, sur le site internet de l'établissement",
+                    "B. En libre service, dans les locaux de réception du public, sur un support papier ou sur un support durable",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "30. Quelles informations doivent figurer dans les plaquettes tarifaires ?",
+                options: [
+                    "A. Les services offerts et les frais y afférents",
+                    "B. Les conditions d'utilisation du compte",
+                    "C. Le prix des différents services auxquels il donne accès",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "31. Quelles sont les obligations en cas de modification tarifaire des produits et services liés à la gestion d'un compte de dépôt / compte courant ?",
+                options: [
+                    "A. L'établissement doit informer les clients deux mois avant l'entrée en vigueur des modifications tarifaires",
+                    "B. Possibilité pour le client de s'opposer à la modification tarifaire",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "32. Quelles informations doivent être fournies avant le débit des frais bancaires liés à des irrégularités et incidents ?",
+                options: [
+                    "A. Information gratuite sur le montant et la dénomination des frais bancaires",
+                    "B. Le débit des frais doit être effectué au minimum 14 jours après la date d'arrêté du relevé où figure l'information préalable",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "33. Qu'est-ce que le document d'information tarifaire (DIT) ?",
+                options: [
+                    "A. Un document simplifié et standardisé des principaux tarifs bancaires",
+                    "B. Un document permettant de comparer les frais liés aux comptes bancaires et aux comptes de paiement entre établissements de l'UE",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "34. Quelles informations doivent figurer dans le document d'information tarifaire (DIT) ?",
+                options: [
+                    "A. La liste nationale des produits et services considérés comme les plus utilisés",
+                    "B. L'offre groupée de services la plus commercialisée",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "35. Qu'est-ce que le relevé annuel de frais (RAF) ?",
+                options: [
+                    "A. Un document distinct faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée",
+                    "B. Un document faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée",
+                    "C. Un document faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours des deux dernières années",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un document distinct faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée"
+            },
+            {
+                question: "36. Qu'est-ce qu'un compte inactif ou 'abandonné' ?",
+                options: [
+                    "A. Un compte sans aucune opération effectuée ni aucune manifestation du client auprès de l'établissement",
+                    "B. Un compte avec des opérations effectuées régulièrement",
+                    "C. Un compte avec des manifestations régulières du client auprès de l'établissement",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un compte sans aucune opération effectuée ni aucune manifestation du client auprès de l'établissement"
+            },
+            {
+                question: "37. Quelles sont les obligations pour les établissements de crédit concernant les comptes inactifs ?",
+                options: [
+                    "A. Identification des titulaires de comptes décédés via la consultation annuelle du RNIPP",
+                    "B. Information du client par tout moyen",
+                    "C. Publication annuelle d'éléments statistiques sur les comptes inactifs recensés dans les livres de l'établissement",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "38. Quels sont les plafonds des frais pour les comptes inactifs ?",
+                options: [
+                    "A. 30 € par compte et par an pour les comptes courants et comptes sur livret",
+                    "B. Pas de prélèvement de frais ni de commissions pour les comptes d'épargne",
+                    "C. Les frais et commissions perçus ne doivent pas être supérieurs à ce qui serait facturé si les comptes étaient actifs pour les PEA - PEE - Comptes titres",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "39. Quelles informations sont prévues à des intervalles réguliers pour permettre aux titulaires de comptes inactifs de réagir ?",
+                options: [
+                    "A. Information du client sur l'inactivité du compte",
+                    "B. Information du client sur les conséquences de cette inactivité",
+                    "C. Information du client 6 mois avant le transfert des fonds à la CDC",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "40. Qu'est-ce que la recommandation 2024-R-02 du 2 juillet 2024 sur le traitement des réclamations ?",
+                options: [
+                    "A. Une recommandation concernant le traitement des réclamations dans le secteur de l'assurance",
+                    "B. Une recommandation concernant le traitement des réclamations dans le secteur bancaire",
+                    "C. Une recommandation concernant le traitement des réclamations dans le secteur des services de paiement",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "41. Qu'est-ce que l'instruction DOC-2012-07 mise à jour le 1er janvier 2024 sur le traitement des réclamations ?",
+                options: [
+                    "A. Une instruction concernant le traitement des réclamations pour tout instrument financier",
+                    "B. Une instruction concernant le traitement des réclamations pour tout service d'investissement",
+                    "C. Une instruction concernant le traitement des réclamations pour tout actif numérique, et service sur actifs numériques entrant dans le champ de compétence de l'AMF",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "42. Qu'est-ce que la loi n° 2013-672 du 26 juillet 2013 ?",
+                options: [
+                    "A. Une loi créant une nouvelle catégorie de clients de banque : clients en situation de fragilité financière",
+                    "B. Une loi concernant les critères quantitatifs pour les clients en situation de fragilité financière",
+                    "C. Une loi concernant les critères qualitatifs pour les clients en situation de fragilité financière",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "43. Qu'est-ce que le décret du 20 juillet 2020 ?",
+                options: [
+                    "A. Un décret modifiant les conditions d'appréciation par les établissements de crédit de la situation de fragilité financière de leurs clients titulaires de compte",
+                    "B. Un décret concernant les clients accumulant 5 irrégularités ou incidents de paiement au cours d'un même mois",
+                    "C. Un décret concernant les clients dont le dossier de surendettement est en cours de traitement",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "44. Qu'est-ce que la tutelle ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé"
+            },
+            {
+                question: "45. Qu'est-ce que la curatelle ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé"
+            },
+            {
+                question: "46. Qu'est-ce que la sauvegarde de justice ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé"
+            },
+            {
+                question: "47. Qu'est-ce que le Fond de Garantie des Dépôts (FGDR) ?",
+                options: [
+                    "A. Un fond gérant les garanties des dépôts, des titres, des cautions et des services de gestion",
+                    "B. Un fond gérant uniquement les garanties des dépôts",
+                    "C. Un fond gérant uniquement les garanties des titres",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un fond gérant les garanties des dépôts, des titres, des cautions et des services de gestion"
+            },
+            {
+                question: "48. Qu'est-ce que la convention AERAS ?",
+                options: [
+                    "A. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque aggravé de santé",
+                    "B. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes ne présentant pas de risque aggravé de santé",
+                    "C. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque moyen de santé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque aggravé de santé"
+            },
+            {
+                question: "49. Qu'est-ce que le droit à l'oubli ?",
+                options: [
+                    "A. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit",
+                    "B. Un droit permettant aux anciens malades du cancer de déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit",
+                    "C. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande d'assurance",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit"
+            },
+            {
+                question: "50. Qu'est-ce que la directive (UE) 2016/97 du 20 janvier 2016 sur la distribution d'assurances (DDA) ?",
+                options: [
+                    "A. Une directive visant à mieux protéger les intérêts du client",
+                    "B. Une directive visant à assurer un même niveau de protection quel que soit le canal de distribution",
+                    "C. Une directive visant à assurer une concurrence non faussée parmi les différents distributeurs",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "51. Qu'est-ce que la gouvernance et surveillance des produits selon la DDA ?",
+                options: [
+                    "A. La conception des produits",
+                    "B. Le marché cible",
+                    "C. Les tests des produits",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "52. Qu'est-ce que le marché cible selon la DDA ?",
+                options: [
+                    "A. L'obligation pour le concepteur d'identifier un marché cible pour chaque produit d'assurance",
+                    "B. La détermination de la compatibilité d'un produit d'assurance avec un groupe de clients",
+                    "C. L'obligation pour le concepteur de ne concevoir et mettre sur le marché que des produits dont les caractéristiques sont conformes aux exigences et aux besoins du marché visé",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "53. Quelles informations doivent être fournies aux clients selon la DDA ?",
+                options: [
+                    "A. Son identité",
+                    "B. La fourniture des conseils sur les produits vendus",
+                    "C. Les procédures permettant l'introduction d'une réclamation",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "54. Quelles informations supplémentaires doivent être fournies par l'intermédiaire selon la DDA ?",
+                options: [
+                    "A. Le registre ainsi que les moyens permettant de vérifier son immatriculation",
+                    "B. S'il agit au nom et pour le compte de l'entreprise d'assurance ou s'il représente le client",
+                    "C. Les participations capitalistiques",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "55. Quelles informations doivent être fournies par l'entreprise d'assurance selon la DDA ?",
+                options: [
+                    "A. La nature de la rémunération perçue par son personnel dans le cadre du contrat",
+                    "B. Les participations capitalistiques",
+                    "C. Le caractère impartial et personnalisé du conseil éventuellement fourni",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. La nature de la rémunération perçue par son personnel dans le cadre du contrat"
+            },
+            {
+                question: "56. Quels documents d'information clé doivent être remis au client en phase précontractuelle selon la DDA ?",
+                options: [
+                    "A. Document d'information normalisé sur le produit d'assurance (DIP)",
+                    "B. Document d'information clé sur les produits d'investissement packagés de détail et fondés sur l'assurance (DIC)",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "57. Quelles informations doivent être fournies sur un PIA selon la DDA ?",
+                options: [
+                    "A. L'ensemble des coûts et frais, y compris liés à la distribution du PIA agrégés permettant de comprendre le coût total ainsi que l'effet sur le retour sur investissement",
+                    "B. La ventilation des coûts et frais par poste",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "58. Comment doivent être fournies les informations selon la DDA ?",
+                options: [
+                    "A. Claire, précise, compréhensible et gratuite",
+                    "B. Dans une des langues de l'Etat membre où le risque est situé / de l'engagement",
+                    "C. Sur un support papier",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "59. Qu'est-ce que le document d'information tarifaire (DIT) selon la DDA ?",
+                options: [
+                    "A. Un document simplifié et standardisé des principaux tarifs bancaires",
+                    "B. Un document permettant de comparer les frais liés aux comptes bancaires et aux comptes de paiement entre établissements de l'UE",
+                    "C. A et B",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. A et B"
+            },
+            {
+                question: "60. Qu'est-ce que le relevé annuel de frais (RAF) selon la DDA ?",
+                options: [
+                    "A. Un document distinct faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée",
+                    "B. Un document faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée",
+                    "C. Un document faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours des deux dernières années",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un document distinct faisant apparaître les opérations concernant la gestion du compte de dépôt (CDD) y compris les frais et intérêts liés à un découvert, au cours de l'année écoulée"
+            },
+            {
+                question: "61. Qu'est-ce que la recommandation 2024-R-02 du 2 juillet 2024 sur le traitement des réclamations ?",
+                options: [
+                    "A. Une recommandation concernant le traitement des réclamations dans le secteur de l'assurance",
+                    "B. Une recommandation concernant le traitement des réclamations dans le secteur bancaire",
+                    "C. Une recommandation concernant le traitement des réclamations dans le secteur des services de paiement",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "62. Qu'est-ce que l'instruction DOC-2012-07 mise à jour le 1er janvier 2024 sur le traitement des réclamations ?",
+                options: [
+                    "A. Une instruction concernant le traitement des réclamations pour tout instrument financier",
+                    "B. Une instruction concernant le traitement des réclamations pour tout service d'investissement",
+                    "C. Une instruction concernant le traitement des réclamations pour tout actif numérique, et service sur actifs numériques entrant dans le champ de compétence de l'AMF",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "63. Qu'est-ce que la loi n° 2013-672 du 26 juillet 2013 ?",
+                options: [
+                    "A. Une loi créant une nouvelle catégorie de clients de banque : clients en situation de fragilité financière",
+                    "B. Une loi concernant les critères quantitatifs pour les clients en situation de fragilité financière",
+                    "C. Une loi concernant les critères qualitatifs pour les clients en situation de fragilité financière",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "64. Qu'est-ce que le décret du 20 juillet 2020 ?",
+                options: [
+                    "A. Un décret modifiant les conditions d'appréciation par les établissements de crédit de la situation de fragilité financière de leurs clients titulaires de compte",
+                    "B. Un décret concernant les clients accumulant 5 irrégularités ou incidents de paiement au cours d'un même mois",
+                    "C. Un décret concernant les clients dont le dossier de surendettement est en cours de traitement",
+                    "D. Toutes les réponses ci-dessus"
+                ],
+                answer: "D. Toutes les réponses ci-dessus"
+            },
+            {
+                question: "65. Qu'est-ce que la tutelle ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé"
+            },
+            {
+                question: "66. Qu'est-ce que la curatelle ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé"
+            },
+            {
+                question: "67. Qu'est-ce que la sauvegarde de justice ?",
+                options: [
+                    "A. La mesure de protection juridique ayant le plus de conséquences sur les actions du majeur protégé",
+                    "B. Une mesure de protection juridique ayant moins de conséquences sur les actions du majeur protégé",
+                    "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "C. Une mesure de protection juridique ayant des conséquences moyennes sur les actions du majeur protégé"
+            },
+            {
+                question: "68. Qu'est-ce que le Fond de Garantie des Dépôts (FGDR) ?",
+                options: [
+                    "A. Un fond gérant les garanties des dépôts, des titres, des cautions et des services de gestion",
+                    "B. Un fond gérant uniquement les garanties des dépôts",
+                    "C. Un fond gérant uniquement les garanties des titres",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un fond gérant les garanties des dépôts, des titres, des cautions et des services de gestion"
+            },
+            {
+                question: "69. Qu'est-ce que la convention AERAS ?",
+                options: [
+                    "A. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque aggravé de santé",
+                    "B. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes ne présentant pas de risque aggravé de santé",
+                    "C. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque moyen de santé",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Une convention visant à faciliter l'accès à l'assurance et au crédit des personnes présentant un risque aggravé de santé"
+            },
+            {
+                question: "70. Qu'est-ce que le droit à l'oubli ?",
+                options: [
+                    "A. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit",
+                    "B. Un droit permettant aux anciens malades du cancer de déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit",
+                    "C. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande d'assurance",
+                    "D. Aucune des réponses ci-dessus"
+                ],
+                answer: "A. Un droit permettant aux anciens malades du cancer de ne pas déclarer, sous certaines conditions, une ancienne pathologie cancéreuse à l'assureur lors d'une demande de crédit"
+            }
+        ];
+
+        // DOM elements
+        const questionContainer = document.getElementById('questionContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const scoreContainer = document.getElementById('scoreContainer');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const scoreMessage = document.getElementById('scoreMessage');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // State variables
+        let currentQuestion = 0;
+        let score = 0;
+        let userAnswers = Array(questions.length).fill(null);
+
+        // Initialize the quiz
+        function initQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            userAnswers = Array(questions.length).fill(null);
+            renderQuestions();
+            updateProgress();
+            scoreContainer.classList.remove('show');
+        }
+
+        // Render all questions
+        function renderQuestions() {
+            questionContainer.innerHTML = '';
+
+            questions.forEach((q, index) => {
+                const questionCard = document.createElement('div');
+                questionCard.className = 'question-card';
+
+                const questionHTML = `
+                    <div>
+                        <span class="question-number">${index + 1}</span>
+                        <h3 class="question-text">${q.question}</h3>
+                    </div>
+                    <div class="options">
+                        ${q.options.map(opt => `
+                            <div class="option" data-index="${index}" data-option="${opt}">
+                                ${opt}
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="answer" id="answer-${index}">
+                        <strong>Réponse correcte :</strong> ${q.answer}
+                    </div>
+                `;
+
+                questionCard.innerHTML = questionHTML;
+                questionContainer.appendChild(questionCard);
+            });
+
+            // Add event listeners to options
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    const questionIndex = parseInt(this.getAttribute('data-index'));
+                    const selectedOption = this.getAttribute('data-option');
+
+                    // Store user answer
+                    userAnswers[questionIndex] = selectedOption;
+
+                    // Check if answer is correct
+                    const isCorrect = selectedOption === questions[questionIndex].answer;
+
+                    // Update UI
+                    if (isCorrect) {
+                        this.classList.add('correct');
+                        // Remove incorrect class if it was there
+                        this.classList.remove('incorrect');
+                    } else {
+                        this.classList.add('incorrect');
+                        // Find and highlight correct answer
+                        const options = document.querySelectorAll(`.option[data-index="${questionIndex}"]`);
+                        options.forEach(opt => {
+                            if (opt.getAttribute('data-option') === questions[questionIndex].answer) {
+                                opt.classList.add('correct');
+                            }
+                        });
+                    }
+
+                    // Show answer explanation
+                    document.getElementById(`answer-${questionIndex}`).classList.add('show');
+
+                    // Update progress
+                    updateProgress();
+                });
+            });
+        }
+
+        // Update progress bar and text
+        function updateProgress() {
+            const answered = userAnswers.filter(a => a !== null).length;
+            const total = questions.length;
+            const percentage = (answered / total) * 100;
+
+            progressBar.style.width = `${percentage}%`;
+            progressText.textContent = `${answered}/${total} questions complétées`;
+
+            // If all questions answered, show score
+            if (answered === total) {
+                calculateScore();
+                scoreContainer.classList.add('show');
+            }
+        }
+
+        // Calculate final score
+        function calculateScore() {
+            score = 0;
+            userAnswers.forEach((answer, index) => {
+                if (answer === questions[index].answer) {
+                    score++;
+                }
+            });
+
+            scoreDisplay.textContent = `${score}/${questions.length}`;
+
+            // Set score message based on performance
+            const percentage = (score / questions.length) * 100;
+            if (percentage >= 80) {
+                scoreMessage.textContent = "Excellent travail ! Vous maîtrisez parfaitement le sujet.";
+            } else if (percentage >= 60) {
+                scoreMessage.textContent = "Bon résultat ! Quelques révisions et vous serez au top.";
+            } else if (percentage >= 40) {
+                scoreMessage.textContent = "Pas mal ! Continuez à vous entraîner pour améliorer votre score.";
+            } else {
+                scoreMessage.textContent = "C'est un bon début ! Consultez les réponses et retentez votre chance.";
+            }
+        }
+
+        // Restart quiz
+        restartBtn.addEventListener('click', initQuiz);
+
+        // Initialize the quiz when page loads
+        window.addEventListener('DOMContentLoaded', initQuiz);
+    </script>
+</body>
+</html>
